@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QMessageBox>
+#include <QString>
 
 namespace Ui {
 class IncluirCD;
@@ -16,10 +17,12 @@ public:
     explicit IncluirCD(QWidget *parent = nullptr);
     ~IncluirCD();
      void clear();
-     void signIncluirCD (QString nome, QString preco, QString numfaixas);
 
 private slots:
      void on_buttonBox_accepted();
+
+signals:
+     void signIncluirCD (QString nome, QString preco, QString numfaixas);
 
 private:
     Ui::IncluirCD *ui;

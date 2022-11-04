@@ -148,40 +148,48 @@ public:
     MainLoja(QWidget *parent = nullptr);
     ~MainLoja();
 
+    void show_Loja();
+
+    void show_livros();
+    void show_DVDs();
+    void show_CDs();
+
 private slots:
-    void on_tabela_livros_cellDoubleClicked(int row, int column);
-
-    void on_tabela_cds_cellDoubleClicked(int row, int column);
-
-    void on_tabela_dvds_cellDoubleClicked(int row, int column);
-
+    //Ações
     void on_actionLer_triggered();
-
     void on_actionSalvar_triggered();
-
     void on_actionSair_triggered();
 
+    //Excluir
+    void on_tabela_livros_cellDoubleClicked(int row, int column);
+    void on_tabela_cds_cellDoubleClicked(int row, int column);
+    void on_tabela_dvds_cellDoubleClicked(int row, int column);
+
+    //Incluir
     void on_actionIncluir_Livro_triggered();
-
     void on_actionIncluir_CD_triggered();
-
     void on_actionIncluir_DVD_triggered();
 
+    //Slots para incluir objetos no estoque
+    void slotIncluirLivro(QString nome, QString preco, QString autor);
+    void slotIncluirCD(QString nome, QString preco, QString numfaixas);
+    void slotIncluirDVD(QString nome, QString preco, QString duracao);
+
 private:
+    //Interface
     Ui::MainLoja *ui;
+
     //Armazena informações do estoque, fazendo um link de Loja e MainLoja.
     Loja x;
+
     //Representa a janela para incluir novos arquivos
     IncluirLivro *inclLivro;
     IncluirCD *inclCD;
     IncluirDVD *inclDVD;
 
     QLabel *total_itens;
+    QLabel *prov;
 
-    //Slots para incluir objetos no estoque
-    void slotIncluirLivro(QString nome, QString preco, QString autor);
-    void slotIncluirCD(QString nome, QString preco, QString numfaixas);
-    void slotIncluirDVD(QString nome, QString preco, QString duracao);
 };
 
 #endif // MAINLOJA_H

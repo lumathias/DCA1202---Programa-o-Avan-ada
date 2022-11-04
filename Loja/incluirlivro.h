@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QMessageBox>
+#include <QString>
 
 namespace Ui {
 class IncluirLivro;
@@ -16,11 +17,12 @@ public:
     explicit IncluirLivro(QWidget *parent = nullptr);
     ~IncluirLivro();
     void clear();
-    void signIncluirLivro (QString nome, QString preco, QString autor);
-
 
 private slots:
     void on_buttonBox_accepted();
+
+signals:
+    void signIncluirLivro(QString nome, QString preco, QString autor);
 
 private:
     Ui::IncluirLivro *ui;
