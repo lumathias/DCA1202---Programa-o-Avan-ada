@@ -657,8 +657,8 @@ void MainLoja::show_Loja()
     show_CDs();
     show_DVDs();
 
-    QString t = QString::number(x.getNumCD() + x.getNumDVD() + x.getNumLivro());
-    total_itens->setText(ti);
+    QString total_i = QString::number(x.getNumCD() + x.getNumDVD() + x.getNumLivro());
+    total_itens->setText(total_i);
 }
 
 void MainLoja::show_livros()
