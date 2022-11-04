@@ -42,7 +42,7 @@
     <string>Autor</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="getDuration">
+  <widget class="QLineEdit" name="getAuthor">
    <property name="geometry">
     <rect>
      <x>100</x>

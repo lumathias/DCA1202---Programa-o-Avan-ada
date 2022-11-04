@@ -591,7 +591,8 @@ void MainLoja::on_actionIncluir_DVD_triggered()
     inclDVD->show();
 }
 
-void MainLoja::slotIncluirLivro(QString nome, QString preco, QString autor){
+void MainLoja::slotIncluirLivro(QString nome, QString preco, QString autor)
+{
     int listSize = x.getNumLivro();
     x.incluirLivro(Livro(nome.toStdString(), round(preco.toFloat() *100.0), autor.toStdString()));
 
@@ -601,7 +602,8 @@ void MainLoja::slotIncluirLivro(QString nome, QString preco, QString autor){
         QMessageBox::critical(this, "Livro inválido", "Não foi possível incluir o LIVRO:\n");
     }
 }
-void MainLoja::slotIncluirCD(QString nome, QString preco, QString numfaixas){
+void MainLoja::slotIncluirCD(QString nome, QString preco, QString numfaixas)
+{
     int listSize = x.getNumCD();
     x.incluirCD(CD(nome.toStdString(), (int)round(preco.toFloat() *100.0), (int)numfaixas.toFloat()));
 
@@ -611,7 +613,8 @@ void MainLoja::slotIncluirCD(QString nome, QString preco, QString numfaixas){
         QMessageBox::critical(this, "CD inválido", "Não foi possível incluir o CD:\n");
     }
 }
-void MainLoja::slotIncluirDVD(QString nome, QString preco, QString duracao){
+void MainLoja::slotIncluirDVD(QString nome, QString preco, QString duracao)
+{
     int listSize = x.getNumDVD();
     x.incluirDVD(DVD(nome.toStdString(), (int)round(preco.toFloat() *100.0), (int)duracao.toFloat()));
 

@@ -16,6 +16,8 @@ public:
     explicit IncluirCD(QWidget *parent = nullptr);
     ~IncluirCD();
      void clear();
+     void signIncluirCD (QString nome, QString preco, QString numfaixas);
+
 private slots:
      void on_buttonBox_accepted();
 

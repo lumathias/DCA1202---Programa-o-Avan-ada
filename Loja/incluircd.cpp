@@ -20,8 +20,13 @@ void IncluirCD::clear(){
 
 }
 
-void IncluirCD::on_buttonBox_accepted()
+void IncluirCD::signIncluirCD (QString nome, QString preco, QString numfaixas)
 {
 
+}
+
+void IncluirCD::on_buttonBox_accepted()
+{
+    signIncluirCD(ui->getName->text(), ui->getPrice->text(), ui->getNtracks->text());
 }
 

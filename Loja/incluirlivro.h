@@ -16,6 +16,7 @@ public:
     explicit IncluirLivro(QWidget *parent = nullptr);
     ~IncluirLivro();
     void clear();
+    void signIncluirLivro (QString nome, QString preco, QString autor);
 
 
 private slots:

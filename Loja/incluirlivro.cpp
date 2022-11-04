@@ -14,11 +14,17 @@ IncluirLivro::~IncluirLivro()
 void IncluirLivro::clear(){
     ui->getName->setText("");
     ui->getPrice->setText("");
-    ui->getDuration->setText("");
+    ui->getAuthor->setText("");
+}
+
+void IncluirLivro::signIncluirLivro (QString nome, QString preco, QString autor)
+{
+
 }
 
 void IncluirLivro::on_buttonBox_accepted()
 {
+    signIncluirLivro(ui->getName->text(), ui->getPrice->text(), ui->getAuthor->text());
 
 }
 

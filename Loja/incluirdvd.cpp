@@ -19,8 +19,12 @@ void IncluirDVD::clear(){
     ui->getDuration->setText("");
 }
 
+void IncluirDVD::signIncluirDVD (QString nome, QString preco, QString duracao){
+
+}
+
 void IncluirDVD::on_buttonBox_accepted()
 {
-
+    signIncluirDVD(ui->getName->text(), ui->getPrice->text(), ui->getDuration->text());
 }
 
