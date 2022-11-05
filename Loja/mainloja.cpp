@@ -23,6 +23,9 @@ MainLoja::MainLoja(QWidget *parent):QMainWindow(parent),
     inclCD = new IncluirCD(this);
     inclDVD = new IncluirDVD(this);
 
+    confirmacao = new QMessageBox();
+    confirmacaoSetup();
+
     total_itens = new QLabel(this);
     statusBar()->insertWidget(0, new QLabel("Total de itens: "));
     statusBar()->insertWidget(1, total_itens);
@@ -68,6 +71,7 @@ MainLoja::~MainLoja()
     delete inclDVD;
 
     delete total_itens;
+    delete confirmacao;
 }
 
 /// CLASSE PRODUTO ///
@@ -561,21 +565,79 @@ bool Loja::salvar(const string& arq) const
     O.close();
     return true;
 }
+void MainLoja::confirmacaoSetup()
+{
+    confirmacao->setWindowTitle("Excluir item");
+    confirmacao->setIcon(QMessageBox::Warning);
+
+    confirmacao->addButton(QMessageBox::Ok);
+    confirmacao->addButton(QMessageBox::Cancel);
+
+    confirmacao->setText("Realmente deseja excluir o ITEM ?");
+
+    confirmacao->setDefaultButton(QMessageBox::Cancel);
+}
 
 void MainLoja::on_tabela_livros_cellDoubleClicked(int row, int column)
 {
+    int escolha = confirmacao->exec();
 
+    switch (escolha) {
+    case QMessageBox::Ok:
+    {
+        if(row < 0 || static_cast<unsigned>(row) > x.getNumLivro()) return;
+
+        x.excluirLivro(row);
+        show_Loja();
+    }
+        break;
+
+    case QMessageBox::Cancel:
+        escolha = -1;
+        break; //faz nada
+    }
 }
 
 void MainLoja::on_tabela_cds_cellDoubleClicked(int row, int column)
 {
+    int escolha = confirmacao->exec();
+
+    switch (escolha) {
+    case QMessageBox::Ok:
+    {
+        if(row < 0 || static_cast<unsigned>(row) > x.getNumLivro()) return;
+
+        x.excluirLivro(row);
+        show_Loja();
+    }
+        break;
+
+    case QMessageBox::Cancel:
+        escolha = -1;
+        break; //faz nada
+    }
 
 }
 
 
 void MainLoja::on_tabela_dvds_cellDoubleClicked(int row, int column)
 {
+    int escolha = confirmacao->exec();
 
+    switch (escolha) {
+    case QMessageBox::Ok:
+    {
+        if(row < 0 || static_cast<unsigned>(row) > x.getNumLivro()) return;
+
+        x.excluirLivro(row);
+        show_Loja();
+    }
+        break;
+
+    case QMessageBox::Cancel:
+        escolha = -1;
+        break; //faz nada
+    }
 }
 
 
@@ -714,8 +776,8 @@ void MainLoja::show_livros()
                 ui->tabela_livros->setCellWidget(i, j, prov);
             }
 
-        }
-    }
+        }//endforinterno
+    }//endforexterno
 }
 
 void MainLoja::show_CDs()
@@ -756,8 +818,8 @@ void MainLoja::show_CDs()
                 ui->tabela_cds->setCellWidget(i, j, prov);
             }
 
-        }
-    }
+        }//endforinterno
+    }//endforexterno
 }
 
 void MainLoja::show_DVDs()
