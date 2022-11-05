@@ -22,6 +22,9 @@
      <height>16</height>
     </rect>
    </property>
+   <property name="frameShape">
+    <enum>QFrame::Box</enum>
+   </property>
    <property name="text">
     <string>INCLUIR NOVO LIVRO</string>
    </property>

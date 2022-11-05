@@ -7,10 +7,17 @@
 #include <incluirdvd.h>
 #include <incluirlivro.h>
 
-#include <QMainWindow>
-#include <QLabel>
 #include <QString>
 #include <QVector>
+#include <QMainWindow>
+#include <QFileDialog>
+#include <QDialog>
+#include <QMessageBox>
+#include <QTableWidgetItem>
+#include <QDebug>
+#include <QStatusBar>
+#include <QLabel>
+#include <QVBoxLayout>
 
 using namespace std;
 
@@ -189,6 +196,8 @@ private:
 
     QLabel *total_itens;
     QLabel *prov;
+    QString info;
+
 
 };
 

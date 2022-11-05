@@ -8,9 +8,6 @@
 #include <string>
 #include <cmath>
 
-#include <QMessageBox>
-#include <QFileDialog>
-
 using namespace std;
 
 MainLoja::MainLoja(QWidget *parent):QMainWindow(parent),
@@ -30,17 +27,50 @@ MainLoja::MainLoja(QWidget *parent):QMainWindow(parent),
     statusBar()->insertWidget(0, new QLabel("Total de itens: "));
     statusBar()->insertWidget(1, total_itens);
 
-    ui->label_livro->setStyleSheet("lightgray");
-    ui->label_cd->setStyleSheet("lightgray");
-    ui->label_dvd->setStyleSheet("lightgray");
+    connect(inclLivro, SIGNAL(signIncluirLivro(QString,QString,QString)), this, SLOT(slotIncluirLivro(QString,QString,QString)) );
 
+    connect(inclCD, SIGNAL(signIncluirCD(QString,QString,QString)), this, SLOT(slotIncluirCD(QString,QString,QString)) );
+
+    connect(inclDVD, SIGNAL(signIncluirDVD(QString,QString,QString)), this, SLOT(slotIncluirDVD(QString,QString,QString)) );
+
+    //Set livros
+    ui->label_livro ->setStyleSheet("lightgray"); //Label livro
+    ui->tabela_livros->setHorizontalHeaderLabels(QStringList() << "Nome" << "Preço" << "Autor");
+    ui->tabela_livros->setStyleSheet("QHeaderView::section{background-color:lightgray}");
+    ui->tabela_livros->horizontalHeader()->setSectionResizeMode(0,QHeaderView::Stretch);
+    ui->tabela_livros->horizontalHeader()->setSectionResizeMode(1,QHeaderView::ResizeToContents);
+    ui->tabela_livros->horizontalHeader()->setSectionResizeMode(2,QHeaderView::ResizeToContents);
+
+    //Set cds
+    ui->label_cd->setStyleSheet("lightgray"); //Label cd
+    ui->tabela_cds->setStyleSheet("QHeaderView::section { background-color:lightgray }");
+    ui->tabela_cds->setHorizontalHeaderLabels(QStringList() << "Nome" << "Preço" << "N Faixas");
+    ui->tabela_cds->horizontalHeader()->setSectionResizeMode(0,QHeaderView::Stretch);
+    ui->tabela_cds->horizontalHeader()->setSectionResizeMode(1,QHeaderView::ResizeToContents);
+    ui->tabela_cds->horizontalHeader()->setSectionResizeMode(2,QHeaderView::ResizeToContents);
+
+    //Set dvds
+    ui->label_dvd->setStyleSheet("lightgray"); //Label dvd
+    ui->tabela_dvds->setHorizontalHeaderLabels(QStringList() << "Nome" << "Preço" << "Duração");
+    ui->tabela_dvds->setStyleSheet("QHeaderView::section { background-color:lightgray }");
+    ui->tabela_dvds->horizontalHeader()->setSectionResizeMode(0,QHeaderView::Stretch);
+    ui->tabela_dvds->horizontalHeader()->setSectionResizeMode(1,QHeaderView::ResizeToContents);
+    ui->tabela_dvds->horizontalHeader()->setSectionResizeMode(2,QHeaderView::ResizeToContents);
 
 }
 
 MainLoja::~MainLoja()
 {
     delete ui;
+
+    delete inclLivro;
+    delete inclCD;
+    delete inclDVD;
+
+    delete total_itens;
 }
+
+/// CLASSE PRODUTO ///
 
 /// Construtor
 Produto::Produto(const string& N, int P): nome(N), preco(P) {}
@@ -128,7 +158,7 @@ ostream& operator<<(ostream& O, const Produto& P)
     return O;
 }
 
-/// CLASSE LIVRO
+/// CLASSE LIVRO ///
 
 Livro::Livro(const string& N, int P, const string& A): Produto(N,P), autor(A) {}
 
@@ -206,7 +236,7 @@ ostream& operator<<(ostream& O, const Livro& L)
     return O;
 }
 
-/// CLASSE CD
+/// CLASSE CD ///
 
 CD::CD(const string& N, int P, int NF): Produto(N,P), nfaixas(NF) {}
 
@@ -283,7 +313,7 @@ ostream& operator<<(ostream& O, const CD& C)
     return O;
 }
 
-/// CLASSE DVD
+/// CLASSE DVD ///
 
 DVD::DVD(const string& N, int P, int D): Produto(N,P), duracao(D) {}
 
@@ -361,7 +391,7 @@ ostream& operator<<(ostream& O, const DVD& D)
     return O;
 }
 
-/// CLASSE LOJA
+/// CLASSE LOJA ///
 
 /// Metodos basicos
 Loja::Loja(): LL(), LC(), LD() {}
@@ -534,23 +564,6 @@ bool Loja::salvar(const string& arq) const
 
 void MainLoja::on_tabela_livros_cellDoubleClicked(int row, int column)
 {
-    exec();
-
-    switch (butao_pressionado) {
-    case QMessageBox::Ok:
-    {
-        if(row < 0 || static_cast<unsigned>(row) > x.getNumLivro())
-            return;
-
-        x.excluirLivro(row);
-        show_Loja();
-    }
-        break;
-
-    case QMessageBox::Cancel:
-        butao_pressionado = -1;
-        break;
-    }
 
 }
 
@@ -650,24 +663,25 @@ void MainLoja::slotIncluirDVD(QString nome, QString preco, QString duracao)
         QMessageBox::critical(this, "DVD inválido", "Não foi possível incluir o DVD:\n");
     }
 }
-//////////////////////////////////////////////////////////////
+
 void MainLoja::show_Loja()
 {
     show_livros();
     show_CDs();
     show_DVDs();
 
-    QString t = QString::number(x.getNumCD() + x.getNumDVD() + x.getNumLivro());
-    total_itens->setText(ti);
+    QString total_i = QString::number(x.getNumCD() + x.getNumDVD() + x.getNumLivro());
+    total_itens->setText(total_i);
 }
 
+//////////////////////////////////////////////////////////////
 void MainLoja::show_livros()
 {
-    ui->table_livros->clearContents();
+    ui->tabela_livros ->clearContents();
 
-    ui->table_livros->setRowCount(x.getNumLivro());
+    ui->tabela_livros->setRowCount(x.getNumLivro());
 
-    for(int i=0; i<ui->table_livros->rowCount(); ++i)
+    for(int i=0; i<ui->tabela_livros->rowCount(); ++i)
     {
 
         for(int j=0; j<=2; ++j)
@@ -681,7 +695,7 @@ void MainLoja::show_livros()
                 info = QString::fromStdString(L.getNome());
                 prov->setText(info);
                 prov->setAlignment(Qt::AlignLeft | Qt::AlignCenter);
-                ui->table_livros->setCellWidget(i, j, prov);
+                ui->tabela_livros->setCellWidget(i, j, prov);
             }
 
             else if(j==1)
@@ -689,7 +703,7 @@ void MainLoja::show_livros()
                 info = QString::number(L.getPreco(), 'f', 2);
                 prov->setText(info);
                 prov->setAlignment(Qt::AlignRight | Qt::AlignCenter);
-                ui->table_livros->setCellWidget(i, j, prov);
+                ui->tabela_livros->setCellWidget(i, j, prov);
             }
 
             else
@@ -697,7 +711,7 @@ void MainLoja::show_livros()
                 info = QString::fromStdString(L.getAutor());
                 prov->setText(info);
                 prov->setAlignment(Qt::AlignLeft | Qt::AlignCenter);
-                ui->table_livros->setCellWidget(i, j, prov);
+                ui->tabela_livros->setCellWidget(i, j, prov);
             }
 
         }
@@ -706,11 +720,11 @@ void MainLoja::show_livros()
 
 void MainLoja::show_CDs()
 {
-    ui->table_cds->clearContents();
+    ui->tabela_cds->clearContents();
 
-    ui->table_cds->setRowCount(x.getNumCD());
+    ui->tabela_cds->setRowCount(x.getNumCD());
 
-    for(int i=0; i<ui->table_cds->rowCount(); ++i)
+    for(int i=0; i<ui->tabela_cds->rowCount(); ++i)
     {
 
         for(int j=0; j<=2; ++j)
@@ -723,7 +737,7 @@ void MainLoja::show_CDs()
                 info = QString::fromStdString(cd.getNome());
                 prov->setText(info);
                 prov->setAlignment(Qt::AlignLeft | Qt::AlignCenter);
-                ui->table_cds->setCellWidget(i, j, prov);
+                ui->tabela_cds->setCellWidget(i, j, prov);
             }
 
             else if(j==1)
@@ -731,7 +745,7 @@ void MainLoja::show_CDs()
                 info = QString::number(cd.getPreco(), 'f', 2);
                 prov->setText(info);
                 prov->setAlignment(Qt::AlignRight | Qt::AlignCenter);
-                ui->table_cds->setCellWidget(i, j, prov);
+                ui->tabela_cds->setCellWidget(i, j, prov);
             }
 
             else
@@ -739,7 +753,7 @@ void MainLoja::show_CDs()
                 info = QString::number(cd.getNumFaixas());
                 prov->setText(info);
                 prov->setAlignment(Qt::AlignCenter | Qt::AlignCenter);
-                ui->table_cds->setCellWidget(i, j, prov);
+                ui->tabela_cds->setCellWidget(i, j, prov);
             }
 
         }
@@ -748,11 +762,11 @@ void MainLoja::show_CDs()
 
 void MainLoja::show_DVDs()
 {
-    ui->table_dvds->clearContents();
+    ui->tabela_dvds->clearContents();
 
-    ui->table_dvds->setRowCount(x.getNumDVD());
+    ui->tabela_dvds->setRowCount(x.getNumDVD());
 
-    for(int i=0; i<ui->table_dvds->rowCount(); ++i)
+    for(int i=0; i<ui->tabela_dvds->rowCount(); ++i)
     {
 
         for(int j=0; j<=2; ++j)
@@ -765,7 +779,7 @@ void MainLoja::show_DVDs()
                 info = QString::fromStdString(dvd.getNome());
                 prov->setText(info);
                 prov->setAlignment(Qt::AlignLeft | Qt::AlignCenter);
-                ui->table_dvds->setCellWidget(i, j, prov);
+                ui->tabela_dvds->setCellWidget(i, j, prov);
             }
 
             else if(j==1)
@@ -773,7 +787,7 @@ void MainLoja::show_DVDs()
                 info = QString::number(dvd.getPreco(), 'f', 2);
                 prov->setText(info);
                 prov->setAlignment(Qt::AlignRight | Qt::AlignCenter);
-                ui->table_dvds->setCellWidget(i, j, prov);
+                ui->tabela_dvds->setCellWidget(i, j, prov);
             }
 
             else
@@ -781,10 +795,11 @@ void MainLoja::show_DVDs()
                 info = QString::number(dvd.getDuracao());
                 prov->setText(info);
                 prov->setAlignment(Qt::AlignCenter | Qt::AlignCenter);
-                ui->table_dvds->setCellWidget(i, j, prov);
+                ui->tabela_dvds->setCellWidget(i, j, prov);
             }
 
-        }
-    }
+        }//endforinterno
+    }//endforexterno
 }
 
+//end
