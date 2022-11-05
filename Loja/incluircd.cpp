@@ -22,7 +22,6 @@ void IncluirCD::clear(){
     ui->getName->setText("");
     ui->getPrice->setText("");
     ui->getNtracks->setText("");
-
 }
 
 void IncluirCD::on_buttonBox_accepted()
@@ -31,7 +30,7 @@ void IncluirCD::on_buttonBox_accepted()
     preco = ui->getPrice->text();
     numfaixas = ui->getNtracks->text();
 
-    if(preco.toFloat() < 0 || nome.isEmpty() || numfaixas.toInt() <= 0)
+    if(preco.toFloat() <= 0.0 || nome.isEmpty() || numfaixas.toInt() <= 0)
     {
         error_box->setText("Não foi possivel incluir o CD:\nNome = " + nome + "\n" + "Preço = " + preco +"\n" + "N Faixas= " + numfaixas);
         error_box->exec();
@@ -43,5 +42,10 @@ void IncluirCD::on_buttonBox_accepted()
 
     emit signIncluirCD(nome, preco, numfaixas);
 
+    this->close();
 }
-//END
+
+void IncluirCD::on_buttonBox_rejected()
+{
+    this->close();
+}

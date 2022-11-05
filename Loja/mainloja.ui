@@ -11,9 +11,15 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainLoja</string>
+   <string>Estoque em Loja</string>
   </property>
   <widget class="QWidget" name="centralwidget">
+   <property name="maximumSize">
+    <size>
+     <width>1000</width>
+     <height>600</height>
+    </size>
+   </property>
    <widget class="QWidget" name="gridLayoutWidget">
     <property name="geometry">
      <rect>
@@ -24,13 +30,19 @@
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout_2">
+     <property name="sizeConstraint">
+      <enum>QLayout::SetMaximumSize</enum>
+     </property>
+     <property name="spacing">
+      <number>0</number>
+     </property>
      <item row="2" column="0">
       <widget class="QLabel" name="label_livro">
        <property name="layoutDirection">
         <enum>Qt::LeftToRight</enum>
        </property>
        <property name="frameShape">
-        <enum>QFrame::WinPanel</enum>
+        <enum>QFrame::Box</enum>
        </property>
        <property name="text">
         <string>Livros</string>
@@ -46,7 +58,7 @@
         <enum>Qt::LeftToRight</enum>
        </property>
        <property name="frameShape">
-        <enum>QFrame::WinPanel</enum>
+        <enum>QFrame::Box</enum>
        </property>
        <property name="text">
         <string>CDs</string>
@@ -62,7 +74,7 @@
         <enum>Qt::LeftToRight</enum>
        </property>
        <property name="frameShape">
-        <enum>QFrame::WinPanel</enum>
+        <enum>QFrame::Box</enum>
        </property>
        <property name="text">
         <string>DVDs</string>

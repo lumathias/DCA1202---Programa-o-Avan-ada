@@ -187,7 +187,6 @@ private:
     Ui::MainLoja *ui;
 
     QMessageBox *confirmacao;
-    void confirmacaoSetup();
 
     //Armazena informações do estoque, fazendo um link de Loja e MainLoja.
     Loja x;

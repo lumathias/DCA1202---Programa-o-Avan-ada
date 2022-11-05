@@ -21,6 +21,8 @@ public:
 private slots:
      void on_buttonBox_accepted();
 
+     void on_buttonBox_rejected();
+
 signals:
      void signIncluirCD (QString nome, QString preco, QString numfaixas);
 

@@ -1,7 +1,9 @@
 #include "incluirlivro.h"
 #include "ui_incluirlivro.h"
 
-IncluirLivro::IncluirLivro(QWidget *parent): QDialog(parent), ui(new Ui::IncluirLivro)
+IncluirLivro::IncluirLivro(QWidget *parent):
+    QDialog(parent),
+    ui(new Ui::IncluirLivro)
 {
     ui->setupUi(this);
 
@@ -28,7 +30,7 @@ void IncluirLivro::on_buttonBox_accepted()
     preco = ui->getPrice->text();
     autor = ui->getAuthor->text();
 
-    if(preco.toFloat() < 0 || nome.isEmpty() || autor.isEmpty())
+    if(preco.toFloat() <= 0.0 || nome.isEmpty() || autor.isEmpty())
     {
         error_box->setText("Não foi possivel incluir o LIVRO:\nNome = " + nome + "\n" + "Preco = " + preco +"\n" + "Autor = " + autor);
         error_box->exec();
@@ -39,5 +41,11 @@ void IncluirLivro::on_buttonBox_accepted()
     clear();
 
     emit signIncluirLivro(nome, preco, autor);
+
+    this->close();
 }
-//END
+
+void IncluirLivro::on_buttonBox_rejected()
+{
+    this->close();
+}

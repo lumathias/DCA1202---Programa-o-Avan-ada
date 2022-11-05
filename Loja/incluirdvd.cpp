@@ -30,7 +30,7 @@ void IncluirDVD::on_buttonBox_accepted()
     preco = ui->getPrice->text();
     duracao = ui->getDuration->text();
 
-    if(preco.toFloat() < 0 || nome.isEmpty() || duracao.toFloat() <= 0)
+    if(preco.toFloat() <= 0.0 || nome.isEmpty() || duracao.toFloat() <= 0)
     {
         error_box->setText("Não foi possivel incluir o DVD:\nNome = " + nome + "\n" + "Preço = " + preco +"\n" + "Duração = " + duracao);
         error_box->exec();
@@ -41,5 +41,11 @@ void IncluirDVD::on_buttonBox_accepted()
     clear();
 
     emit signIncluirDVD(nome, preco, duracao);
+
+    this->close();
 }
-//END
+
+void IncluirDVD::on_buttonBox_rejected()
+{
+    this->close();
+}
