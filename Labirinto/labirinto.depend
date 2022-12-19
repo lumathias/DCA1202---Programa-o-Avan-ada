@@ -1,0 +1,26 @@
+# depslib dependency file v1.0
+1665851854 source:c:\users\samsung\desktop\programação avançada\proj_labrt\labirinto\coord.cpp
+	<cmath>
+	"coord.h"
+
+1665851854 c:\users\samsung\desktop\programação avançada\proj_labrt\labirinto\coord.h
+	<iostream>
+
+1665851854 source:c:\users\samsung\desktop\programação avançada\proj_labrt\labirinto\labirinto_main.cpp
+	<iostream>
+	<iomanip>
+	<chrono>
+	"labirinto.h"
+
+1671461014 c:\users\samsung\desktop\programação avançada\proj_labrt\labirinto\labirinto.h
+	<vector>
+	"coord.h"
+
+1671461249 source:c:\users\samsung\desktop\programação avançada\proj_labrt\labirinto\labirinto.cpp
+	<iomanip>
+	<fstream>
+	<list>
+	<algorithm>
+	<cmath>
+	"labirinto.h"
+
