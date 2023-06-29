@@ -1,5 +1,5 @@
 #include "whatsprog_dados_cliente.h"
-#include "../MySocket/mysocket.h"
+#include "MySocket/mysocket.h"
 #include <cstdio>
 #include <thread>
 

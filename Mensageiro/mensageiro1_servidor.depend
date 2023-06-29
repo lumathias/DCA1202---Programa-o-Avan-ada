@@ -1,0 +1,27 @@
+# depslib dependency file v1.0
+1671492365 source:c:\users\samsung\documents\dca1202\mysocket\mysocket.cpp
+	<iostream>
+	<string.h>
+	"mysocket.h"
+	<sys/types.h>
+	<netdb.h>
+	<unistd.h>
+
+1671492365 c:\users\samsung\documents\dca1202\mysocket\mysocket.h
+	<iostream>
+	<string>
+	<winsock2.h>
+	<ws2tcpip.h>
+	<sys/socket.h>
+
+1671724815 source:c:\users\samsung\documents\dca1202\mensageiro\mensageiro1_servidor.cpp
+	<iostream>
+	<string.h>
+	<list>
+	<algorithm>
+	<thread>
+	"../MySocket/mysocket.h"
+	"mensageiro.h"
+
+1672152853 c:\users\samsung\documents\dca1202\mensageiro\mensageiro.h
+

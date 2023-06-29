@@ -1,0 +1,98 @@
+Aluno: 20220080650_LUISA DE
+
+
+NOTA FINAL: 5,0
+
+Descontos: -2,0 -3,5 + 0,5 = 5,0
+
+-2,0 pt - PLÁGIO PARCIAL. O projeto contém muitos erros iguais aos de outro projeto apresentado, sendo que esses erros não se repetem em nenhum outro projeto além desses. Como existem algumas diferenças entre os programas, decidi não atribuir diretamente nota 0,0 (zero), fazendo apenas um desconto em função das partes copiadas.
+
+PROJETO
+
+-0,5 pt - Você incluiu em um mesmo conjunto de arquivos (loja.h e loja.cpp) tanto as classes que manipulam as informações do estoque (Produto, Loja, etc.) quanto a classe principal da interface (MainWindow). Isso não é uma boa técnica de organização de projeto, principalmente pq o formulário Qt da janela principal da interface você denominou, segundo a convenção Qt, com o nome da classe (mainwindow.ui). Os arquivos referentes à janela principal da interface deveriam se denominar mainwindow.h e mainwindow.cpp, da mesma forma que vc fez para as demais janelas (IncluirCD, etc.)
+ESSE MESMO ERRO ESTÁ REPETIDO EM OUTRO PROJETO SUBMETIDO
+
+PROGRAMA PRINCIPAL
+
+-0,2 pt - No construtor da classe MainLoja, você deveria ter especificado o construtor de todos os dados membros dos quais ela é composta, como em todas as classes C++. Além dos já incluídos pelo Qt e por você:
+MainLoja::MainLoja(QWidget *parent)
+  ui(new Ui::MainLoja),
+  inclLivro(nullptr),
+  inclCD(nullptr),
+  inclDVD(nullptr),
+  total_itens(new QLabel)
+faltou acrescentar:
+  , prov(nullptr)
+  , info("")
+  , confirmacao(nullptr)
+ou (melhor ainda) já alocar os que são ponteiros:
+  , inclLivro(new IncluirCD(this))
+  ...
+ESSE MESMO ERRO ESTÁ REPETIDO EM OUTRO PROJETO SUBMETIDO
+
+-0,5 pt - No construtor MainLoja::MainLoja, você inicializou as janelas de inclusão com:
+  inclLivro = new IncluirLivro(this);
+  inclCD = new IncluirCD(this);
+  inclDVD = new IncluirDVD(this);
+mas inicializou:
+  confirmacao = new QMessageBox();
+quando deveria ser:
+  confirmacao = new QMessageBox(this);
+para que, no sistema parental do Qt, essa janela também ficasse registrada como filha da janela principal, conforme deve ser sempre feito em Qt e consta da especificação.
+Mesmo erro nas classes IncluirCD, IncluirDVD e IncluirLivro. Em vez de:
+  error_box = new QMessageBox();
+Deveria ser:
+  erroBox = new QMessageBox(this);
+ESSE MESMO ERRO ESTÁ REPETIDO EM OUTRO PROJETO SUBMETIDO
+
+-0,5 pt - No construtor da classe MainLoja, você inicializou o dado membro da janela principal com:
+  total_itens(new QLabel);
+e em seguida fez:
+  total_itens = new QLabel(this);
+Com isso, você sobrescreve o ponteiro e deixa a 1ª área de memória que foi alocada na inicialização  sem ter um ponteiro que aponte para ela, o que fará com que nunca mais possa ser desalocada.
+
+-0,5 pt - No construtor MainLoja::MainLoja, você não chamou MainLoja::show_Loja. Essa omissão não causa problemas na exibição inicial das tabelas com os itens, pois as listas começam vazias, mas deixa de atualizar a barra de status, que deveria exibir "Total de itens: 0"
+
+-0,2 pt - No construtor da classe MainLoja, para alterar a cor de fundo dos QLabel de título da tabela de livros, em vez de:
+  ui->label_livro->setStyleSheet("lightgray");
+deveria ser:
+  ui->label_livro->setStyleSheet("background-color: lightgray");
+Mesma coisa nas tabelas de CD e DVD.
+ESSE MESMO ERRO ESTÁ REPETIDO EM OUTRO PROJETO SUBMETIDO
+
+-0,5 pt - No destrutor MainLoja::~MainLoja você faz:
+  delete inclLivro;
+  delete inclCD;
+  delete inclDVD;
+  delete total_itens;
+Você não precisa, NEM PODE, liberar essas memórias, pois o sistema parental de Qt já libera as áreas de memória das janelas que foram registradas como filhas de outra janela Qt. É o caso, pois você alocou esses ponteiros como filhos de this:
+  inclLivro = new IncluirLivro(this);
+  inclCD = new IncluirCD(this);
+  inclDVD = new IncluirDVD(this);
+  total_itens = new QLabel(this);
+Portanto, as áreas serão desalocadas 2 vezes: uma explicitamente por você, outra pelo Qt. E como ao desalocar você não alterou o valor dos ponteiros para nullptr, a função do Qt vai supor que os ponteiros apontam para uma área que pode ser liberada, vai chamar delete e causar erro de execução.
+Mesmo erro nas classes IncluirCD, IncluirDVD e IncluirLivro. O destrutor normalmente não deveria fazer:
+  delete erroBox;
+embora nesse caso, em razão do erro anterior de você não haver incluído essa janela no sistema parental Qt como filha de this, ser necessário deletá-la.
+ESSE MESMO ERRO ESTÁ REPETIDO EM OUTRO PROJETO SUBMETIDO
+
+-0,5 pt - Na função MainLoja::on_actionLer_triggered, sempre que o usuário escolher "Cancelar" na janela de diálogo para escolher o arquivo, será exibida a janela de erro, o que é incorreto, pois nesse caso não houve nenhum erro de leitura.
+Em vez de:
+  QString fileName = ...;
+  if (!x.ler(fileName.toStdString())) QMessageBox::critical( ... );
+  show_Loja();
+deveria ser algo assim:
+  QString fileName = ...;
+  if(!filename.isEmpty()) { // Testa se não escolheu "Cancelar"
+    if (!x.ler(fileName.toStdString())) QMessageBox::critical( ... );
+    show_Loja();
+  }
+Mesmo erro na função MainWindow::on_actionSalvar_triggered
+
+JANELAS DE INCLUSÃO
+
+-0,1 pt - As janelas de inclusão de itens não tem título "Incluir _"
+
+JANELAS DE EXCLUSÃO
+
++0,5 pt - Fez as janelas de confirmação de exclusão.
